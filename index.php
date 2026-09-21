@@ -15,7 +15,6 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Verifica o estado desejado da sidebar (hidden = ocultando agora, shown = reabrindo agora)
 $sidebarParam = $_GET['sidebar'] ?? '';
 $containerClass = 'app-container';
 if ($sidebarParam === 'hidden') {
@@ -34,10 +33,8 @@ if ($sidebarParam === 'hidden') {
 </head>
 <body>
 <div class="<?php echo $containerClass; ?>">
-    <!-- Frame Esquerdo: Histórico de Conversas -->
     <iframe src="historic.php" name="sidebar" class="sidebar-frame"></iframe>
     
-    <!-- Frame Direito: Interface do Chat -->
     <iframe src="chat.php#end" name="chat_window" class="chat-frame"></iframe>
 </div>
 </body>

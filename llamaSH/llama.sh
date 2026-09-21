@@ -1,6 +1,3 @@
-#!/bin/bash
-
-# Caminho exato onde estão as bibliotecas e o executável
 LLAMA_DIR="/home/tlk/Documents/AIX/llama.cpp"
 LLAMA_SERVER="$LLAMA_DIR/llama-server"
 

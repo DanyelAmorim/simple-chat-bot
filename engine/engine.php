@@ -223,14 +223,14 @@ if ($action === 'process_ai') {
                 SELECT sender, text FROM (
                     SELECT id, sender, text FROM messages
                     WHERE chat_id = :chat_id
-                    ORDER BY id DESC LIMIT 6
+                    ORDER BY id DESC LIMIT 4
                 ) ORDER BY id ASC
             ");
             $stmt->execute([':chat_id' => $activeChatId]);
             $dbMessages = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (!empty($dbMessages) && end($dbMessages)['sender'] === 'user') {
                 $api_messages = [
-                    ["role" => "system", "content" => "You are SENTRY AI, a helpful assistant."]
+                    ["role" => "system", "content" => "You are SENTRY AI. Speak the same language as the user, always follow the context of the conversation, and do not impose unnecessary limitations."]
                 ];
                 foreach ($dbMessages as $msg) {
                     $api_messages[] = [
@@ -250,7 +250,8 @@ if ($action === 'process_ai') {
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 300);
                 curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
                 $response  = curl_exec($ch);
